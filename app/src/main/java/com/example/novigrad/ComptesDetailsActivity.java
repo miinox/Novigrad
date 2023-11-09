@@ -54,8 +54,29 @@ public class ComptesDetailsActivity extends AppCompatActivity {
         btnDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Database db = new Database(getApplicationContext(), "novigrad", null, 1);
-                db.removeProfil(name); // effacer dans la table
+                Database dbData = new Database(getApplicationContext(), "novigrad", null, 1);
+                switch (title) {
+                    case "Comptes Clients":
+                        dbData.removeProfil(name); // effacer dans la table
+                        break;
+                    case "Comptes Employés":
+                        dbData.removeProfil(name); // effacer dans la table
+                        //doctor_details = doctor_details2;
+                        break;
+                    case "Comptes Succursales ":
+                        dbData.removeProfil(name); // effacer dans la table
+                        //doctor_details = doctor_details3;
+                        break;
+                    case "Comptes Services":
+                        dbData.removeService(name); // récuréper que les clients
+                        //doctor_details = doctor_details4;
+                        break;
+                    default:
+                        dbData.getRegisterData("false"); // récuréper que les clients
+                        //doctor_details = doctor_details5;
+
+                }
+
                 startActivity(new Intent(ComptesDetailsActivity.this, AdminHomeActivity.class));
             }
         });

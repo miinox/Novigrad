@@ -20,7 +20,8 @@ public class Database extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase SQLiteDatabase) { // la table n'existe pas encore. On la crée
         String qry1 = "create table users(username TEXT, email TEXT, password TEXT, role TEXT)"; // création de la table
         SQLiteDatabase.execSQL(qry1);
-
+        String qry2 = "create table service(serviceName TEXT,  description TEXT)"; // creation de deuxieme table
+        SQLiteDatabase.execSQL(qry2);
 
         //register("admin", "admin@uottawa.ca", "1234&Abcd", 2); // créer directement l'administrateur
     }
@@ -45,6 +46,15 @@ public class Database extends SQLiteOpenHelper {
         cv.put("role", role);
         SQLiteDatabase db = getWritableDatabase();
         db.insert("users", null, cv);
+        db.close();
+    }
+
+    public void addService(String nom, String description) {
+        ContentValues cv = new ContentValues();
+        cv.put("serviceName", nom);
+        cv.put("description", description);
+        SQLiteDatabase db = getWritableDatabase();
+        db.insert("service", null, cv);
         db.close();
     }
 
@@ -92,6 +102,27 @@ public class Database extends SQLiteOpenHelper {
         return arr;
     }
 
+    public ArrayList<String> getServiceData() {
+        ArrayList<String> arr = new ArrayList<>();
+        SQLiteDatabase db = getReadableDatabase();
+        String selection = "role=?";
+        String[] selectionArgs = {  };
+
+        Cursor c = db.query("service", null, null, null, null, null, null);
+
+        if(c.moveToFirst()) {
+            do {
+                String name = c.getString(0); // username
+                String description = c.getString(1); // email
+                //String password = c.getString(2); // password
+                arr.add(name + "$" + description); // ajouter dans le tab
+            } while (c.moveToNext());
+        }
+        c.close();
+        db.close();
+        return arr;
+    }
+
     /**
      * Supprimer un utilisateur de la base de données
      * @param username
@@ -100,6 +131,13 @@ public class Database extends SQLiteOpenHelper {
         String str[] = {username};
         SQLiteDatabase db = getWritableDatabase();
         db.delete("users","username=?", str);
+        db.close();
+    }
+
+    public void removeService(String name) {
+        String str[] = {name};
+        SQLiteDatabase db = getWritableDatabase();
+        db.delete("service","serviceName=?", str);
         db.close();
     }
 }

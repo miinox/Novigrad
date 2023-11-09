@@ -37,6 +37,15 @@ public class ComptesActivity extends AppCompatActivity {
 
         Database db = new Database(getApplicationContext(), "novigrad", null, 1); // aller dans la base de données
         ArrayList dbData;
+
+        ServiceActivity permisDeConduire = new ServiceActivity("permis", "permis de condnuire");
+        ServiceActivity photo = new ServiceActivity("photo", "carte photo");
+        ServiceActivity sante = new ServiceActivity("Carte Sante", "carte sante");
+
+//        db.addService(permisDeConduire.getName(), permisDeConduire.getDescription());
+//        db.addService(photo.getName(), photo.getDescription());
+//        db.addService(sante.getName(), sante.getDescription());
+
         switch (title) {
             case "Comptes Clients":
                 dbData = db.getRegisterData("false"); // récuréper que les clients
@@ -50,7 +59,7 @@ public class ComptesActivity extends AppCompatActivity {
                 //doctor_details = doctor_details3;
                 break;
             case "Comptes Services":
-                dbData = db.getRegisterData("false"); // récuréper que les clients
+                dbData = db.getServiceData(); // récuréper que les clients
                 //doctor_details = doctor_details4;
                 break;
             default:
