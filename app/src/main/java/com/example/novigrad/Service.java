@@ -1,10 +1,10 @@
 package com.example.novigrad;
 
-public class ServiceActivity {
+public class Service {
     private String name;
     private String description;
 
-    public ServiceActivity(String name, String description) {
+    public Service(String name, String description) {
         this.name = name;
         this.description = description;
     }

@@ -38,9 +38,9 @@ public class ComptesActivity extends AppCompatActivity {
         Database db = new Database(getApplicationContext(), "novigrad", null, 1); // aller dans la base de données
         ArrayList dbData;
 
-        ServiceActivity permisDeConduire = new ServiceActivity("permis", "permis de condnuire");
-        ServiceActivity photo = new ServiceActivity("photo", "carte photo");
-        ServiceActivity sante = new ServiceActivity("Carte Sante", "carte sante");
+        Service permisDeConduire = new Service("permis", "permis de condnuire");
+        Service photo = new Service("photo", "carte photo");
+        Service sante = new Service("Carte Sante", "carte sante");
 
 //        db.addService(permisDeConduire.getName(), permisDeConduire.getDescription());
 //        db.addService(photo.getName(), photo.getDescription());
