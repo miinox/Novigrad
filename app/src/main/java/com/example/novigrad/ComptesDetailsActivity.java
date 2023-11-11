@@ -11,12 +11,12 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class ComptesDetailsActivity extends AppCompatActivity {
 
     private Button btnSave, btnChange, btnDelete;
-    private EditText edDetails;
-    private TextView tvCDName;
+    private TextView tvCDName, edDetails;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,20 +34,20 @@ public class ComptesDetailsActivity extends AppCompatActivity {
         Intent intent = getIntent();
         String title = intent.getStringExtra("text1");
         String name = intent.getStringExtra("text2") ;
-        String email = intent.getStringExtra("text3") ;
+        String description = intent.getStringExtra("text3");
 
-        if(title.equals("Comptes Clients")) {
+        if(title.equals("Comptes Clients") || title.equals("Comptes Succursales")) {
             btnChange.setVisibility(View.INVISIBLE);
         }
 
-        edDetails.setText(intent.getStringExtra("text2") + "\n" + intent.getStringExtra("text3"));
-        //tvCDName.setText(intent.getStringExtra("text1"));
+        //edDetails.setText(intent.getStringExtra("text2") + "\n" + intent.getStringExtra("text3"));
+        edDetails.setText(name + "\n" + description);
         tvCDName.setText(title);
 
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(ComptesDetailsActivity.this, ComptesActivity.class));
+                startActivity(new Intent(ComptesDetailsActivity.this, AdminHomeActivity.class));
             }
         });
 
@@ -61,23 +61,29 @@ public class ComptesDetailsActivity extends AppCompatActivity {
                         break;
                     case "Comptes Employés":
                         dbData.removeProfil(name); // effacer dans la table
-                        //doctor_details = doctor_details2;
                         break;
-                    case "Comptes Succursales ":
-                        dbData.removeProfil(name); // effacer dans la table
-                        //doctor_details = doctor_details3;
+                    case "Comptes Succursales":
+                        dbData.removeSuccursaleHelper(name); // effacer dans la table
                         break;
                     case "Comptes Services":
                         dbData.removeService(name); // récuréper que les clients
-                        //doctor_details = doctor_details4;
                         break;
                     default:
                         dbData.getRegisterData("false"); // récuréper que les clients
                         //doctor_details = doctor_details5;
-
                 }
-
                 startActivity(new Intent(ComptesDetailsActivity.this, AdminHomeActivity.class));
+            }
+        });
+
+        btnChange.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent it = new Intent(ComptesDetailsActivity.this, ServicesActivity.class);
+                it.putExtra("title", "Changer Service");
+                it.putExtra("nom", name);
+                it.putExtra("description", description);
+                startActivity(it);
             }
         });
 

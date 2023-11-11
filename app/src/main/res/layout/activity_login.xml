@@ -32,7 +32,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editTextLoginUsername" />
 
-    <!-- text 24*7 Healthcare -->
     <TextView
         android:id="@+id/textView"
         android:layout_width="wrap_content"

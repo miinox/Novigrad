@@ -80,5 +80,17 @@ public class AdminHomeActivity extends AppCompatActivity {
                 startActivity(it);
             }
         });
+
+        // FORMULAIRES
+        CardView formulaires = findViewById(R.id.cardFormulaire);
+        formulaires.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent it = new Intent(AdminHomeActivity.this, ComptesActivity.class);
+                it.putExtra("title", "Formulaires");
+                startActivity(it);
+            }
+        });
     }
 }

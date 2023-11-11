@@ -1,22 +1,18 @@
 package com.example.novigrad;
 import java.util.ArrayList;
-public class Succursale {
-    private int id;
+import java.util.Arrays;
 
+public class Succursale {
     private String nomSuc;
 
     private String adresseSuc;
 
-    private ArrayList services;
+    private ArrayList<String> joursOuvrables;
 
-    private String[] joursOuvrables;
+    private String heuresO, heuresF;
 
-    private String heuresOuvertures;
+    public Succursale(String nomSuc, String adresseSuc, ArrayList joursOuvrables, String[] heures) {
 
-    public Succursale (int id, String nomSuc, String adresseSuc, String[] joursOuvrables, String heuresOuvertures) {
-
-        this.id = id;
-        services=new ArrayList();
         this.nomSuc = nomSuc;
 
         this.adresseSuc = adresseSuc;
@@ -24,34 +20,59 @@ public class Succursale {
 
         this.joursOuvrables = joursOuvrables;
 
-        this.heuresOuvertures = heuresOuvertures;
-
+        this.heuresO = heures[0];
+        this.heuresF = heures[1];
     }
 
-    // Methode pour afficher toutes les variables de la succursale
-
-    public void afficherVariables() {
-
-        System.out.println ("ID:" + id);
-
-        System.out.println("Nom:" + nomSuc);
-
-        System.out.println("Adresse:" + adresseSuc);
-
-        System.out.println("Heures d'Ouvertures:" + heuresOuvertures);
-
-        System.out.println("Jours Ouvrables:" );
-
-        for (String jour : joursOuvrables) {
-
-            System.out.println(jour + ",");
-
-        }
-
-        System.out.println();
-
+    public String getNomSuc() {
+        return nomSuc;
     }
-    public void addServices(Service service) {
-        services.add(service);
 
-    }}
+    public void setNomSuc(String nomSuc) {
+        this.nomSuc = nomSuc;
+    }
+
+    public String getAdresseSuc() {
+        return adresseSuc;
+    }
+
+    public void setAdresseSuc(String adresseSuc) {
+        this.adresseSuc = adresseSuc;
+    }
+
+    public ArrayList<String> getJoursOuvrables() {
+        return joursOuvrables;
+    }
+
+    public void setJoursOuvrables(ArrayList<String> joursOuvrables) {
+        this.joursOuvrables = joursOuvrables;
+    }
+
+    public String getHeuresO() {
+        return heuresO;
+    }
+
+    public void setHeuresO(String heuresO) {
+        this.heuresO = heuresO;
+    }
+
+    public String getHeuresF() {
+        return heuresF;
+    }
+
+    public void setHeuresF(String heuresF) {
+        this.heuresF = heuresF;
+    }
+
+    @Override
+    public String toString() {
+        return "Succursale{" +
+                "nomSuc='" + nomSuc + '\'' +
+                ", adresseSuc='" + adresseSuc + '\'' +
+                ", joursOuvrables=" + joursOuvrables +
+                ", heuresO='" + heuresO + '\'' +
+                ", heuresF='" + heuresF + '\'' +
+                '}';
+    }
+}
+

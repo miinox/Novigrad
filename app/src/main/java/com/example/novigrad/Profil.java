@@ -1,6 +1,5 @@
 package com.example.novigrad;
 
-import java.io.Serializable;
 
 public class Profil  {
     // Attributs de la classe

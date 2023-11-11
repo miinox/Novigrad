@@ -2,62 +2,47 @@ package com.example.novigrad;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.AlertDialog;
+import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.Button;
-import android.widget.ListView;
-import android.widget.SimpleAdapter;
+import android.widget.CheckBox;
+import android.widget.EditText;
+import android.widget.TimePicker;
+import android.widget.Toast;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Calendar;
 
 public class SuccursalesActivity extends AppCompatActivity {
 
-    private String[][] succursales =
-            {
-                    {"Succursale 1", "Full Body Checkup", "", "", "999"},
-                    {"Succursale 2", "Blood Glucose", "", "", "299"},
-                    {"Succursale 3", "COVID-19 Antibody", "", "", "899"},
-                    {"Succursale 4", "Thyroid Check", "", "", "499"},
-                    {"Succursale 4", "Immunity check", "", "", "699"}
-            };
+    private EditText edNom, edAdresse;
+    private CheckBox lu, ma, me, je, ve, sa;
+    private Button btnBack, btnAdd, btnTimeO, btnTimeF;
+    private TimePickerDialog timePickerDialogOuverture;
+    private TimePickerDialog timePickerDialogFermeture;
 
-    private String[] succursales_detail = {
-            "SuccOttawa\n" +
-                    " Complete Hemogram\n" +
-                    "HbA1c\n" +
-                    " Iron Studies\n" +
-                    "Kidney Function Test\n" +
-                    "LDH Lactate Dehydrogenase, Sereum\n" +
-                    "Liquid Profile\n" +
-                    "Liver Function Test",
-            "Su Heron, Permis de conduire Fasting",
-            "Succ#157 Photo seulement - IgG",
-            "CLOSE till...",
-            "Services en ligne seulement Hemogram\n" +
-                    "Permis de conduire\n" +
-                    "Carte santé\n" +
-                    "Carte photo\n" +
-                    "...\n" +
-                    "...\n" +
-                    "..."
-    };
-
-    HashMap<String, String> item;
-    ArrayList list;
-    SimpleAdapter sa;
-    Button btnGoToCart, btnBack;
-    ListView listView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_succursales);
 
-        btnGoToCart = findViewById(R.id.buttonLTGoToCart);
-        btnBack = findViewById(R.id.buttonSCBack);
-        listView = findViewById(R.id.listViewSC);
+        edNom = findViewById(R.id.editTextSuccursaleNom);
+        edAdresse = findViewById(R.id.editTextSuccursaleAdresse);
+        btnBack = findViewById(R.id.buttonBackSuccursale);
+        btnAdd = findViewById(R.id.buttonAddSuccursale);
+        btnTimeO = findViewById(R.id.buttonServiceTimeOuverture);
+        btnTimeF = findViewById(R.id.buttonServiceTimeFermeture);
+        lu = findViewById(R.id.checkBoxLundi);
+        ma = findViewById(R.id.checkBoxMardi);
+        me = findViewById(R.id.checkBoxMercredi);
+        je = findViewById(R.id.checkBoxJeudi);
+        ve = findViewById(R.id.checkBoxVendredi);
+        sa = findViewById(R.id.checkBoxSamedi);
+
+        CheckBox joursOuverture[] = {lu, ma, me, je, ve, sa};
 
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -65,33 +50,75 @@ public class SuccursalesActivity extends AppCompatActivity {
                 startActivity(new Intent(SuccursalesActivity.this, AdminHomeActivity.class));
             }
         });
-        list = new ArrayList();
-        for(int i = 0; i < succursales.length; i++) {
-            item = new HashMap<String, String>();
-            item.put("line1", succursales[i][0]);
-            item.put("line2", succursales[i][1]);
-            item.put("line3", succursales[i][2]);
-            item.put("line4", succursales[i][3]);
-            item.put("line5", "Total Cost:" + succursales[i][4] + "$");
-            list.add(item);
-        }
 
-        sa = new SimpleAdapter(this,list,
-                R.layout.multi_lines,
-                new String[]{"line1", "line2", "line3", "line4", "line5"},
-                new int[]{R.id.line_a, R.id.line_b, R.id.line_c, R.id.line_d, R.id.line_e}
-        );
-        listView.setAdapter(sa);
-
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        //timepicker ouverture
+        initTimePicker(btnTimeO);
+        btnTimeO.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent it = new Intent(SuccursalesActivity.this, SuccursalesDetailsActivity.class);
-                it.putExtra("text1", succursales[position][0]);
-                it.putExtra("text2", succursales_detail[position]);
-                it.putExtra("text3", succursales[position][4]);
-                startActivity(it);
+            public void onClick(View v) {
+                timePickerDialogOuverture.show();
             }
         });
+
+        //timepicker fermeture
+        initTimePicker(btnTimeF);
+        btnTimeF.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                timePickerDialogFermeture.show();
+            }
+        });
+
+        // enregistrer la succursales
+        btnAdd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String nom = edNom.getText().toString();
+                String adresse = edAdresse.getText().toString();
+                ArrayList ouverture = new ArrayList<String>();
+                String o = btnTimeO.getText().toString();
+                String f = btnTimeF.getText().toString();
+                String[] heures = {o, f};
+                for(int i = 0; i < 6; i++) {
+                    if(joursOuverture[i].isChecked()) {
+                        String jour = joursOuverture[i].getText().toString();
+                        ouverture.add(jour);
+                    }
+                }
+                if(!nom.isEmpty()) {
+                    Database db = new Database(getApplicationContext(), "novigrad", null, 1); // aller dans la base de données
+                    Succursale succursale = new Succursale(nom, adresse, ouverture, heures);
+                    db.addSuccursale(succursale);
+                    startActivity(new Intent(SuccursalesActivity.this, AdminHomeActivity.class));
+                } else {
+                    Toast.makeText(getApplicationContext(), "Verifier les informations", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+    }
+
+
+    /**
+     * Initialiser les heures
+     * @param btn
+     */
+    private void initTimePicker(Button btn){
+        TimePickerDialog.OnTimeSetListener timeSetListener = new TimePickerDialog.OnTimeSetListener() {
+
+            @Override
+            public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+                btn.setText(hourOfDay+":"+minute);
+            }
+        };
+        Calendar cal = Calendar.getInstance();
+        int hours = cal.get(Calendar.HOUR);
+        int minutes = cal.get(Calendar.MINUTE);
+
+        int style = AlertDialog.THEME_HOLO_DARK;
+        if (btn == btnTimeO) {
+            timePickerDialogOuverture = new TimePickerDialog(this, style, timeSetListener, hours, minutes, true);
+        } else if (btn == btnTimeF) {
+            timePickerDialogFermeture = new TimePickerDialog(this, style, timeSetListener, hours, minutes, true);
+        }
     }
 }

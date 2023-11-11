@@ -77,6 +77,11 @@ private void init() {
     btn= findViewById(R.id.buttonRegister);
     tv = findViewById(R.id.textViewExistingUser);
     chkEmploye = findViewById(R.id.checkBoxEmploye);
+
+    edUsername.getText().clear();
+    edPassword.getText().clear();
+    edEmail.getText().clear();
+    edConfirm.getText().clear();
 }
 
     /**

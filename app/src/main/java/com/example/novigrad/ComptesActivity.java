@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -17,7 +18,7 @@ import java.util.HashMap;
 public class ComptesActivity extends AppCompatActivity {
 
     private TextView tv;
-    private Button btn;
+    private Button btnBack, btnAdd;
     private String [][] comptes_details = {};
     ArrayList list;
     HashMap<String, String> item;
@@ -29,8 +30,9 @@ public class ComptesActivity extends AppCompatActivity {
         setContentView(R.layout.activity_comptes);
 
         tv = findViewById(R.id.textViewComptesTitle);
-        btn = findViewById(R.id.buttonComptesBack);
-
+        btnBack = findViewById(R.id.buttonComptesBack);
+        btnAdd = findViewById(R.id.buttonComptesAdd);
+        btnAdd.setVisibility(View.INVISIBLE);
         Intent it = getIntent();
         String title = it.getStringExtra("title");
         tv.setText(title);
@@ -38,36 +40,27 @@ public class ComptesActivity extends AppCompatActivity {
         Database db = new Database(getApplicationContext(), "novigrad", null, 1); // aller dans la base de données
         ArrayList dbData;
 
-        Service permisDeConduire = new Service("permis", "permis de condnuire");
-        Service photo = new Service("photo", "carte photo");
-        Service sante = new Service("Carte Sante", "carte sante");
 
-//        db.addService(permisDeConduire.getName(), permisDeConduire.getDescription());
-//        db.addService(photo.getName(), photo.getDescription());
-//        db.addService(sante.getName(), sante.getDescription());
-
+        if(title.equals("Comptes Succursales") || title.equals("Formulaires") || title.equals("Comptes Services")) {
+            btnAdd.setVisibility(View.VISIBLE);}
         switch (title) {
             case "Comptes Clients":
                 dbData = db.getRegisterData("false"); // récuréper que les clients
                 break;
             case "Comptes Employés":
-                dbData = db.getRegisterData("true"); // récuréper que les clients
-                //doctor_details = doctor_details2;
+                dbData = db.getRegisterData("true"); // récuréper que les employés
                 break;
-            case "Comptes Succursales ":
-                dbData = db.getRegisterData("false"); // récuréper que les clients
-                //doctor_details = doctor_details3;
+            case "Comptes Succursales":
+                dbData = db.getSuccData(); // récuréper que les succursales
                 break;
-            case "Comptes Services":
-                dbData = db.getServiceData(); // récuréper que les clients
-                //doctor_details = doctor_details4;
+            case "Comptes Services": // services
+                dbData = db.getServiceData(); // récuréper les services
                 break;
-            default:
-                dbData = db.getRegisterData("false"); // récuréper que les clients
-                //doctor_details = doctor_details5;
+            default: // formulaires
+                dbData = db.getRegisterData("false"); // les formulaires
 
         }
-        btn.setOnClickListener(new View.OnClickListener() {
+        btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(ComptesActivity.this, AdminHomeActivity.class));
@@ -111,9 +104,25 @@ public class ComptesActivity extends AppCompatActivity {
                 it.putExtra("text1",title);
                 it.putExtra("text2", comptes_details[position][0]);
                 it.putExtra("text3", comptes_details[position][1]);
-//                it.putExtra("text4", comptes_details[position][2]);
-//                it.putExtra("text5", comptes_details[position][4]);
                 startActivity(it);
+            }
+        });
+
+        btnAdd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                switch (title) {
+                    case "Comptes Succursales":
+                        startActivity(new Intent(ComptesActivity.this, SuccursalesActivity.class));
+                        break;
+                    case "Comptes Services": // services
+                        Intent it = new Intent(ComptesActivity.this, ServicesActivity.class);
+                        it.putExtra("title", "Nouveau Service");
+                        startActivity(it);
+                        break;
+                    default: // formulaires
+                        //startActivity(new Intent(ComptesActivity.this, FormulairesActivity.class));
+                }
             }
         });
     }

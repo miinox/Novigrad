@@ -7,6 +7,20 @@
     android:background="@drawable/back1"
     tools:context=".ComptesActivity">
 
+    <Button
+        android:id="@+id/buttonComptesAdd"
+        android:layout_width="80dp"
+        android:layout_height="53dp"
+        android:background="@drawable/ic_add"
+        android:text="Add"
+        android:textColor="@color/colorWhite"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.833"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/listViewComptes"
+        app:layout_constraintVertical_bias="0.521" />
+
     <TextView
         android:id="@+id/textViewComptesName"
         android:layout_width="wrap_content"
@@ -53,9 +67,10 @@
         android:text="BACK"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintHorizontal_bias="0.173"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/listViewComptes" />
+        app:layout_constraintTop_toBottomOf="@+id/listViewComptes"
+        app:layout_constraintVertical_bias="0.428" />
 
     <EditText
         android:id="@+id/editTexComptesSearch"
