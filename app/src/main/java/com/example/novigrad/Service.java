@@ -32,8 +32,8 @@ public class Service {
         return title;
     }
 
-//    public String toString() {
-//        return  "Title : " + title + "\n" +
-//                "Description : " + description;
-//    }
+    public String toString() {
+        return  "Title : " + title +
+                "\nDescription : " + description;
+    }
 }

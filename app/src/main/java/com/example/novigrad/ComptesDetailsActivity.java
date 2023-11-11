@@ -30,31 +30,51 @@ public class ComptesDetailsActivity extends AppCompatActivity {
         edDetails = findViewById(R.id.editTextCDTextMultiline);
         tvCDName = findViewById(R.id.textViewCDPackageName);
 
-
         Intent intent = getIntent();
         String title = intent.getStringExtra("text1");
         String name = intent.getStringExtra("text2") ;
         String description = intent.getStringExtra("text3");
 
-        if(title.equals("Comptes Clients") || title.equals("Comptes Succursales")) {
-            btnChange.setVisibility(View.INVISIBLE);
+        Database dbData = new Database(getApplicationContext(), "novigrad", null, 1);
+
+        if(title.equals("Comptes Services")){
+            btnChange.setVisibility(View.VISIBLE);
         }
 
-        //edDetails.setText(intent.getStringExtra("text2") + "\n" + intent.getStringExtra("text3"));
-        edDetails.setText(name + "\n" + description);
+        Object o = new Object();
+        switch (title) {
+            case "Comptes Clients":
+            case "Comptes Employés":
+                o = dbData.getUsersInfo(name);
+                break;
+            case "Comptes Succursales":
+                o = dbData.getSuccursaleInfo(name); // effacer dans la table
+                break;
+            case "Comptes Services":
+                o = dbData.getServiceInfo(name);
+                break;
+            default:
+                //dbData.getRegisterData("false"); // récuréper que les clients
+                //doctor_details = doctor_details5;
+        }
+
         tvCDName.setText(title);
+        //edDetails.setText(name + "\n" + description);
+        edDetails.setText(o.toString());
 
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(ComptesDetailsActivity.this, AdminHomeActivity.class));
+                Intent it = new Intent(ComptesDetailsActivity.this, ComptesActivity.class);
+                it.putExtra("title", title);
+                startActivity(it);
+                //startActivity(new Intent(ComptesDetailsActivity.this, AdminHomeActivity.class));
             }
         });
 
         btnDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Database dbData = new Database(getApplicationContext(), "novigrad", null, 1);
                 switch (title) {
                     case "Comptes Clients":
                         dbData.removeProfil(name); // effacer dans la table

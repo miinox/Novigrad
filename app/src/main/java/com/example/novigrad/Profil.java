@@ -36,12 +36,10 @@ public class Profil  {
     // Méthode toString pour obtenir une représentation textuelle de l'objet Profil
     @Override
     public String toString() {
-        return "Profil{" +
-                "user='" + user + '\'' +
-                ", email='" + email + '\'' +
-                ", password='" + password + '\'' +
-                ", role='" + roleProfil() + '\'' +
-                '}';
+        return "Username : " + user +
+                "\nEmail : " + email +
+                "\nPassword : " + password +
+                "\nRole : " + (role == 1 ? "employé":"client");
     }
 
     // Méthode privée pour convertir le rôle en chaîne de caractères

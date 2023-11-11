@@ -3,13 +3,13 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 public class Succursale {
-    private String nomSuc;
+    private String nomSuc="";
 
-    private String adresseSuc;
+    private String adresseSuc="";
 
     private ArrayList<String> joursOuvrables;
 
-    private String heuresO, heuresF;
+    private String heuresO ="", heuresF="";
 
     public Succursale(String nomSuc, String adresseSuc, ArrayList joursOuvrables, String[] heures) {
 
@@ -24,6 +24,9 @@ public class Succursale {
         this.heuresF = heures[1];
     }
 
+    public Succursale() {
+
+    }
     public String getNomSuc() {
         return nomSuc;
     }
@@ -48,8 +51,7 @@ public class Succursale {
         this.joursOuvrables = joursOuvrables;
     }
 
-    public String getHeuresO() {
-        return heuresO;
+    public String getHeuresO() {return heuresO;
     }
 
     public void setHeuresO(String heuresO) {
@@ -66,13 +68,11 @@ public class Succursale {
 
     @Override
     public String toString() {
-        return "Succursale{" +
-                "nomSuc='" + nomSuc + '\'' +
-                ", adresseSuc='" + adresseSuc + '\'' +
-                ", joursOuvrables=" + joursOuvrables +
-                ", heuresO='" + heuresO + '\'' +
-                ", heuresF='" + heuresF + '\'' +
-                '}';
+        return "Nom succursale : " + nomSuc +
+                "\nAdresseSuc : " + adresseSuc +
+                "\nJours d'ouvertures : " +(joursOuvrables == null ? "" : joursOuvrables.toString())+
+                "\nheures ouvertures : " + heuresO +
+                "\nheures fermetures : " + heuresF;
     }
 }
 

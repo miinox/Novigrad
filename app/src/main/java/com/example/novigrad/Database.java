@@ -9,6 +9,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import androidx.annotation.Nullable;
 
 import java.util.ArrayList;
+import java.util.SplittableRandom;
 
 public class Database extends SQLiteOpenHelper {
     public Database(@Nullable Context context, @Nullable String name, @Nullable SQLiteDatabase.CursorFactory factory, int version) {
@@ -28,8 +29,8 @@ public class Database extends SQLiteOpenHelper {
         String qry3 = "CREATE TABLE succursales(nom TEXT PRIMARY KEY, lieu TEXT)";
         SQLiteDatabase.execSQL(qry3);
          // créer une base pour les jours ouvrables
-        String qry4 = "CREATE TABLE jours_ouvrables(nom TEXT PRIMARY KEY, lieu TEXT)";
-//        SQLiteDatabase.execSQL(qry4);
+        String qry4 = "CREATE TABLE jours_ouvrables(nom TEXT PRIMARY KEY, jour TEXT)";
+        SQLiteDatabase.execSQL(qry4);
 //        String qry5 = "CREATE TABLE heures_travail (" +
 //                "id INTEGER PRIMARY KEY AUTOINCREMENT," +
 //                "succursale_id INTEGER," +  // Clé étrangère pour lier aux succursales
@@ -83,7 +84,6 @@ public class Database extends SQLiteOpenHelper {
         }
         return false;
     }
-
     /**
      * Obtenir tous les comptes true = employés, false = clients
      * @param role
@@ -121,6 +121,21 @@ public class Database extends SQLiteOpenHelper {
         db.delete("users","username=?", str);
         db.close();
     }
+
+    public Profil getUsersInfo(String nom) {
+        String info[] = new String[2];
+        String [] str = {nom};
+        SQLiteDatabase db = getReadableDatabase();
+        Cursor c = db.rawQuery("select * from users where username=?", str);
+        if(c.moveToFirst()) {
+            String usernme = c.getString(0); // username
+            String email = c.getString(1); // email
+            String password = c.getString(2); // mot de passe
+            int r = c.getString(3).equals("true")?1:0;
+            return new Profil(usernme, email, password, r);
+        }
+        return null;
+    }
     /************************************* SERVICES *************************************/
     public void removeService(String name) {
         String str[] = {name};
@@ -155,6 +170,20 @@ public class Database extends SQLiteOpenHelper {
         db.close();
         return arr;
     }
+
+
+    public Service getServiceInfo(String nom) {
+        String info[] = new String[2];
+        String [] str = {nom};
+        SQLiteDatabase db = getReadableDatabase();
+        Cursor c = db.rawQuery("select * from service where serviceName=?", str);
+        if(c.moveToFirst()) {
+            String nomService = c.getString(0); // username
+            String descriptionService = c.getString(1); // email
+            return new Service(nomService, descriptionService);
+        }
+        return null;
+    }
     /************************************* SUCCURSALES *************************************/
 
     private void addHeuresOuvertures(Succursale succursale, long succursaleId) {
@@ -178,24 +207,7 @@ public class Database extends SQLiteOpenHelper {
         db.close();
     }
 
-    public ArrayList<String> getJoursOuvrablesData(String nom) {
-//        ArrayList<String> arr = new ArrayList<>();
-//        SQLiteDatabase db = getReadableDatabase();
-//        String[] selectionArgs = {  };
-//
-//        Cursor c = db.query("jours_ouvrables", "jour", nom, null, null, null, null);
-//
-//        if(c.moveToFirst()) {
-//            do {
-//                String jour = c.getString(1); // email
-//                arr.add(jour); // ajouter dans le tab
-//            } while (c.moveToNext());
-//        }
-//        c.close();
-//        db.close();
-//        return arr;
-        return null;
-    }
+
 
     public void removeSuccursaleHelper(String nom) {
         String str[] = {nom};
@@ -221,6 +233,10 @@ public class Database extends SQLiteOpenHelper {
 //        addHeuresOuvertures(succursale, ID);
     }
 
+    /**
+     * Retourne toutes les succursales
+     * @return Arraylist
+     */
     public ArrayList<String> getSuccData() {
         ArrayList<String> arr = new ArrayList<>();
         SQLiteDatabase db = getReadableDatabase();
@@ -238,4 +254,63 @@ public class Database extends SQLiteOpenHelper {
         db.close();
         return arr;
     }
+
+    public ArrayList<String> getJoursOuvrables(String nom) {
+        ArrayList<String> arr = new ArrayList<>();
+        SQLiteDatabase db = getReadableDatabase();
+        String[] colonnes = {"jour"};
+        Cursor c = db.query("jours_ouvrables", colonnes, "nom", null, null, null, null);
+
+        if(c.moveToFirst()) {
+            do {
+                String j = c.getString(0);
+                arr.add(j);
+            } while (c.moveToNext());
+        }
+        c.close();
+        db.close();
+        return arr;
+    }
+
+    private String[] succInfo(String nom) {
+        String info[] = new String[2];
+        String [] str = {nom};
+        SQLiteDatabase db = getReadableDatabase();
+        Cursor c = db.rawQuery("select * from succursales where nom=?", str);
+        if(c.moveToFirst()) {
+            String nomSucc = c.getString(0); // username
+            String lieuSucc = c.getString(1); // email
+            info[0] = nomSucc;
+            info[1] = lieuSucc;
+        }
+        return info;
+    }
+
+    public Succursale getSuccursaleInfo(String nom) {
+        Succursale s = new Succursale();
+        String[] infos = succInfo(nom);
+        s.setNomSuc(infos[0]);
+        s.setAdresseSuc(infos[1]);
+//        s.setJoursOuvrables(getJoursOuvrables(nom));
+        return s;
+    }
+
+    public Boolean updateServiceData(String ancienNom, String nouveauNom, String nouvelleDescription) {
+        SQLiteDatabase DB = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("serviceName", nouveauNom);
+        contentValues.put("description", nouvelleDescription);
+
+        Cursor cursor = DB.rawQuery("SELECT * FROM service WHERE serviceName = ?", new String[]{ancienNom});
+
+        if (cursor.getCount() > 0) {
+            long result = DB.update("service", contentValues, "serviceName = ?", new String[]{ancienNom});
+            cursor.close();
+            return result != -1;
+        }
+
+        cursor.close();
+        return false;
+    }
+
 }
