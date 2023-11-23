@@ -1,0 +1,287 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    android:background="@drawable/back2">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:context=".SanteFormActivity">
+
+        <!-- Permis de conduire -->
+
+
+        <TextView
+            android:id="@+id/formNom"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:text="Carte de santé"
+            android:textColor="@color/purple_200"
+            android:textSize="34sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.495"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <!-- FORMULAIRE -->
+        <TextView
+            android:id="@+id/textViewFormPermis2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="25dp"
+            android:text="1. Formulaire"
+            android:textColor="@color/colorWhite"
+            android:textSize="34sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/formNom" />
+
+        <!-- Nom -->
+        <TextView
+            android:id="@+id/textViewFormPermisNom"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="Nom"
+            android:textColor="@color/colorWhite"
+            android:textSize="25dp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.112"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textViewFormPermis2" />
+
+        <EditText
+            android:id="@+id/editTextFormSPNom"
+            android:layout_width="330dp"
+            android:layout_height="43dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/input_bg"
+            android:drawablePadding="10dp"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:paddingLeft="20dp"
+            android:paddingTop="10dp"
+            android:paddingRight="10dp"
+            android:paddingBottom="10dp"
+            android:textColor="@color/colorWhite"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.493"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textViewFormPermisNom" />
+
+        <!-- Prénom -->
+        <TextView
+            android:id="@+id/textViewFormPermisPrenom"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="Prenom"
+            android:textColor="@color/colorWhite"
+            android:textSize="25dp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.112"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/editTextFormSPNom" />
+
+        <EditText
+            android:id="@+id/editTextFormSPPrenom"
+            android:layout_width="330dp"
+            android:layout_height="43dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/input_bg"
+            android:drawablePadding="10dp"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:paddingLeft="20dp"
+            android:paddingTop="10dp"
+            android:paddingRight="10dp"
+            android:paddingBottom="10dp"
+            android:textColor="@color/colorWhite"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.493"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textViewFormPermisPrenom" />
+
+        <!-- Date de naissance -->
+        <TextView
+            android:id="@+id/textViewFormPermisDN"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="Date de naissance"
+            android:textColor="@color/colorWhite"
+            android:textSize="25dp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.195"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/editTextFormSPPrenom" />
+
+        <EditText
+            android:id="@+id/editTextFormSPDN"
+            android:layout_width="330dp"
+            android:layout_height="43dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/input_bg"
+            android:drawablePadding="10dp"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:paddingLeft="20dp"
+            android:paddingTop="10dp"
+            android:paddingRight="10dp"
+            android:paddingBottom="10dp"
+            android:textColor="@color/colorWhite"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.493"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textViewFormPermisDN" />
+
+        <!-- Adresse -->
+        <TextView
+            android:id="@+id/textViewFormPermisAddresse"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="Adresse"
+            android:textColor="@color/colorWhite"
+            android:textSize="25dp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.125"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/editTextFormSPDN" />
+
+        <EditText
+            android:id="@+id/editTextFormPermisAdresse"
+            android:layout_width="330dp"
+            android:layout_height="43dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/input_bg"
+            android:drawablePadding="10dp"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:paddingLeft="20dp"
+            android:paddingTop="10dp"
+            android:paddingRight="10dp"
+            android:paddingBottom="10dp"
+            android:textColor="@color/colorWhite"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.493"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textViewFormPermisAddresse" />
+
+
+        <!-- Documents -->
+        <TextView
+            android:id="@+id/textViewFormPermisDoc"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="25dp"
+            android:text="2. Documents"
+            android:textColor="@color/colorWhite"
+            android:textSize="34sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/editTextFormPermisAdresse" />
+
+        <!-- Preuve domicile  -->
+
+        <TextView
+            android:id="@+id/textViewFormSPDomicile"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="* Preuve de domicile (une image d'un relevé bancaire ou\n
+            d'une facture d'électricité indiquant l'adresse)"
+            android:textColor="@color/colorWhite"
+            android:textSize="10dp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.212"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textViewFormPermisDoc" />
+
+        <Button
+            android:id="@+id/buttonChoisirFichierSPDomicile"
+            android:layout_width="152dp"
+            android:layout_height="38dp"
+            android:layout_marginTop="15dp"
+            android:drawableEnd="@android:drawable/ic_menu_save"
+            android:text="Choisir"
+            android:textSize="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.129"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textViewFormSPDomicile" />
+
+
+        <!-- Preuve de statut  -->
+        <TextView
+            android:id="@+id/textViewFormSPStaut"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:text="* Preuve de statut (une image d'une carte de résidence permanente\n
+            au Canada ou d'un passeport Canadien)"
+            android:textColor="@color/colorWhite"
+            android:textSize="10dp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.356"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/buttonChoisirFichierSPDomicile" />
+
+        <Button
+            android:id="@+id/buttonChoisirFichierStatut"
+            android:layout_width="152dp"
+            android:layout_height="38dp"
+            android:layout_marginTop="15dp"
+            android:drawableEnd="@android:drawable/ic_menu_save"
+            android:text="Choisir"
+            android:textSize="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.129"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textViewFormSPStaut" />
+
+
+        <!-- Btn -->
+        <Button
+            android:id="@+id/buttonFormPermisEnvoyerSP"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:text="Envoyer"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.869"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/buttonChoisirFichierStatut"
+            app:layout_constraintVertical_bias="0.0" />
+
+        <Button
+            android:id="@+id/buttonFormPermisRetourSP"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:text="Annuler"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.111"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/buttonChoisirFichierStatut"
+            app:layout_constraintVertical_bias="0.0" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>
+
