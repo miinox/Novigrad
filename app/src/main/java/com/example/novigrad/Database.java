@@ -22,11 +22,11 @@ public class Database extends SQLiteOpenHelper {
         String qry1 = "create table users(username TEXT PRIMARY KEY, email TEXT, password TEXT, role TEXT)"; // création de la table
         SQLiteDatabase.execSQL(qry1);
 
-        String qry2 = "create table service(serviceName TEXT PRIMARY KEY,  description TEXT)"; // creation de deuxieme table
+        String qry2 = "create table service(serviceName TEXT PRIMARY KEY,  description TEXT, form TEXT)"; // creation de deuxieme table
         SQLiteDatabase.execSQL(qry2);
 
         // créer une base de données pour la succursale
-        String qry3 = "CREATE TABLE succursales(nom TEXT PRIMARY KEY, lieu TEXT)";
+        String qry3 = "create table succursales(nom TEXT PRIMARY KEY, lieu TEXT)";
         SQLiteDatabase.execSQL(qry3);
          // créer une base pour les jours ouvrables
         String qry4 = "CREATE TABLE jours_ouvrables(nom TEXT PRIMARY KEY, jour TEXT)";
@@ -144,15 +144,17 @@ public class Database extends SQLiteOpenHelper {
         db.close();
     }
 
-    public void addService(String nom, String description) {
+    public void addService(String nom, String description, String formulaire) {
         ContentValues cv = new ContentValues();
         cv.put("serviceName", nom);
         cv.put("description", description);
+        cv.put("form", formulaire);
         SQLiteDatabase db = getWritableDatabase();
         db.insert("service", null, cv);
         db.close();
     }
     public ArrayList<String> getServiceData() {
+
         ArrayList<String> arr = new ArrayList<>();
         SQLiteDatabase db = getReadableDatabase();
         String[] selectionArgs = {  };
@@ -161,9 +163,10 @@ public class Database extends SQLiteOpenHelper {
 
         if(c.moveToFirst()) {
             do {
-                String name = c.getString(0); // username
-                String description = c.getString(1); // email
-                arr.add(name + "$" + description); // ajouter dans le tab
+                String name = c.getString(0); // nom du service
+                String description = c.getString(1); // descrpition
+                String formulaire = c.getString(2); // formulaire
+                arr.add(name + "$" + description + "$" + formulaire); // ajouter dans le tab
             } while (c.moveToNext());
         }
         c.close();
@@ -180,7 +183,8 @@ public class Database extends SQLiteOpenHelper {
         if(c.moveToFirst()) {
             String nomService = c.getString(0); // username
             String descriptionService = c.getString(1); // email
-            return new Service(nomService, descriptionService);
+            String formulaire = c.getString(2); // email
+            return new Service(nomService, descriptionService, formulaire);
         }
         return null;
     }
@@ -245,8 +249,8 @@ public class Database extends SQLiteOpenHelper {
 
         if(c.moveToFirst()) {
             do {
-                String nom = c.getString(0); // username
-                String lieu = c.getString(1); // email
+                String nom = c.getString(0); // nom
+                String lieu = c.getString(1);
                 arr.add(nom + "$" + lieu); // ajouter dans le tab
             } while (c.moveToNext());
         }
@@ -295,11 +299,12 @@ public class Database extends SQLiteOpenHelper {
         return s;
     }
 
-    public Boolean updateServiceData(String ancienNom, String nouveauNom, String nouvelleDescription) {
+    public Boolean updateServiceData(String ancienNom, String nouveauNom, String nouvelleDescription, String nouveauFormulaire) {
         SQLiteDatabase DB = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put("serviceName", nouveauNom);
         contentValues.put("description", nouvelleDescription);
+        contentValues.put("form", nouveauFormulaire);
 
         Cursor cursor = DB.rawQuery("SELECT * FROM service WHERE serviceName = ?", new String[]{ancienNom});
 

@@ -17,7 +17,7 @@ public class ComptesDetailsActivity extends AppCompatActivity {
 
     private Button btnSave, btnChange, btnDelete;
     private TextView tvCDName, edDetails;
-
+    private String form ="-";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,6 +52,11 @@ public class ComptesDetailsActivity extends AppCompatActivity {
                 break;
             case "Comptes Services":
                 o = dbData.getServiceInfo(name);
+                if (o instanceof Service) {
+                    Service service = (Service) o;
+                    form = service.getFormulaire();
+                    //Toast.makeText(getApplicationContext(), form, Toast.LENGTH_SHORT).show();
+                }
                 break;
             default:
                 //dbData.getRegisterData("false"); // récuréper que les clients
@@ -62,15 +67,17 @@ public class ComptesDetailsActivity extends AppCompatActivity {
         //edDetails.setText(name + "\n" + description);
         edDetails.setText(o.toString());
 
+        // Sauvegarder
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent it = new Intent(ComptesDetailsActivity.this, ComptesActivity.class);
                 it.putExtra("title", title);
                 startActivity(it);
-                //startActivity(new Intent(ComptesDetailsActivity.this, AdminHomeActivity.class));
             }
         });
+
+        // supprimer
 
         btnDelete.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -92,17 +99,22 @@ public class ComptesDetailsActivity extends AppCompatActivity {
                         dbData.getRegisterData("false"); // récuréper que les clients
                         //doctor_details = doctor_details5;
                 }
-                startActivity(new Intent(ComptesDetailsActivity.this, AdminHomeActivity.class));
+                //startActivity(new Intent(ComptesDetailsActivity.this, AdminHomeActivity.class));
+                Intent it = new Intent(ComptesDetailsActivity.this, ComptesActivity.class);
+                it.putExtra("title", title);
+                startActivity(it);
             }
         });
 
+        // modifier
         btnChange.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent it = new Intent(ComptesDetailsActivity.this, ServicesActivity.class);
-                it.putExtra("title", "Changer Service");
+                it.putExtra("title", "Changer service");
                 it.putExtra("nom", name);
                 it.putExtra("description", description);
+                it.putExtra("formulaire", form);
                 startActivity(it);
             }
         });

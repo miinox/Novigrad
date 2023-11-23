@@ -31,35 +31,37 @@ public class LoginActivity extends AppCompatActivity {
 
                 @Override
                 public void onClick(View v) { // la fonction ici est exécutée lorsqu'on presse sur le bouton
-                    Database db = new Database(getApplicationContext(), "novigrad", null, 1);
-                    db.register("Bob", "bob@gmail.com", "1234@abc", "true");
-                    db.register("Robert", "robibi@gmail.com", "1234@abc", "false");
-                    startActivity(new Intent(LoginActivity.this, AdminHomeActivity.class));
-                         //lire username et password
-//                    String username = edUsername.getText().toString();
-//                    String password = edPassword.getText().toString();
-//                    Database db = new Database(getApplicationContext(), "novigrad", null, 1); // création de la database "novigrad"
-//                    if(username.isEmpty() || password.isEmpty()) {
-//                        Toast.makeText(getApplicationContext(), "Please fill All details", Toast.LENGTH_SHORT).show();
-//                    }
-//                    else{
-//                        if(username.equals("admin") && password.equals("1234@abc"))  { // ADMIN
-//                            startActivity(new Intent(LoginActivity.this, AdminHomeActivity.class));
-//                        } else { // autre
-//                            if(db.login(username, password)) { // les informations existent dans la base de données
-//                                Toast.makeText(getApplicationContext(), "Login Success", Toast.LENGTH_SHORT).show();
-//
-//                                // partager les infos avec la page suivante
-//                                SharedPreferences sharedPreferences = getSharedPreferences("shared_prefs", Context.MODE_PRIVATE);
-//                                SharedPreferences.Editor editor = sharedPreferences.edit();
-//                                editor.putString("username", username);
-//                                editor.apply();
-//
-//                            } else {
-//                                Toast.makeText(getApplicationContext(), "Invalid Username and Password", Toast.LENGTH_SHORT).show();
-//                            }
-//                        }
-//                    }
+//                    Database db = new Database(getApplicationContext(), "novigrad", null, 1);
+//                    db.register("Bob", "bob@gmail.com", "1234@abc", "true");
+//                    db.register("Robert", "robibi@gmail.com", "1234@abc", "false");
+                    //startActivity(new Intent(LoginActivity.this, AdminHomeActivity.class));
+//                         lire username et password
+                    String username = edUsername.getText().toString();
+                    String password = edPassword.getText().toString();
+                    Database db = new Database(getApplicationContext(), "novigrad", null, 1); // création de la database "novigrad"
+                    if(username.isEmpty() || password.isEmpty()) {
+                        Toast.makeText(getApplicationContext(), "Please fill All details", Toast.LENGTH_SHORT).show();
+                    }
+                    else{
+                        if(username.equals("admin") && password.equals("1234@abc"))  { // ADMIN
+                            startActivity(new Intent(LoginActivity.this, AdminHomeActivity.class));
+                        } else { // autre
+                            if(db.login(username, password)) { // les informations existent dans la base de données
+                                Toast.makeText(getApplicationContext(), "Login Success", Toast.LENGTH_SHORT).show();
+
+                                // partager les infos avec la page suivante
+                                SharedPreferences sharedPreferences = getSharedPreferences("shared_prefs", Context.MODE_PRIVATE);
+                                SharedPreferences.Editor editor = sharedPreferences.edit();
+                                editor.putString("username", username);
+                                editor.apply();
+
+                            } else {
+                                Toast.makeText(getApplicationContext(), "Invalid Username and Password", Toast.LENGTH_SHORT).show();
+                                edUsername.setText("");
+                                edPassword.setText("");
+                            }
+                        }
+                    }
                 }
             });
 

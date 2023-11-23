@@ -16,6 +16,10 @@ public class Profil  {
         this.role = role;
     }
 
+    public Profil() {
+
+    }
+
     // GETTERS pour accéder aux attributs de la classe
     public String getUser() {
         return user;

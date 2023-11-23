@@ -38,10 +38,10 @@ public class ComptesActivity extends AppCompatActivity {
         tv.setText(title);
 
         Database db = new Database(getApplicationContext(), "novigrad", null, 1); // aller dans la base de données
-        ArrayList dbData;
+        ArrayList<String> dbData = null;
 
 
-        if(title.equals("Comptes Succursales") || title.equals("Formulaires") || title.equals("Comptes Services")) {
+        if(title.equals("Comptes Services")) {
             btnAdd.setVisibility(View.VISIBLE);}
         switch (title) {
             case "Comptes Clients":
@@ -57,7 +57,7 @@ public class ComptesActivity extends AppCompatActivity {
                 dbData = db.getServiceData(); // récuréper les services
                 break;
             default: // formulaires
-                dbData = db.getRegisterData("false"); // les formulaires
+                //dbData = db.getRegisterData("false"); // les formulaires
 
         }
         btnBack.setOnClickListener(new View.OnClickListener() {
@@ -68,17 +68,28 @@ public class ComptesActivity extends AppCompatActivity {
         });
 
 
-        comptes_details = new String[dbData.size()][];
-        for(int i = 0; i < comptes_details.length; i++) {
-            comptes_details[i] = new String[2];
+        if(title.equals("Formulaires")) {
+            comptes_details = new String[][]{
+                    {"Type", "Permis de conduire"},
+                    {"Type", "Carte de santé"},
+                    {"Type", "Carte d'identité"}
+            };
+
+        } else {
+            comptes_details = new String[dbData.size()][];
+            for(int i = 0; i < comptes_details.length; i++) {
+                comptes_details[i] = new String[2];
+            }
+
+            for(int i = 0; i < dbData.size(); i++) {
+                String arrData = dbData.get(i).toString();
+                String[] strData = arrData.split(java.util.regex.Pattern.quote("$"));
+                comptes_details[i][0] = strData[0];
+                comptes_details[i][1] = strData[1];
+            }
         }
 
-        for(int i = 0; i < dbData.size(); i++) {
-            String arrData = dbData.get(i).toString();
-            String[] strData = arrData.split(java.util.regex.Pattern.quote("$"));
-            comptes_details[i][0] = strData[0];
-            comptes_details[i][1] = strData[1];
-        }
+
         list = new ArrayList();
         for(int i = 0; i < comptes_details.length; i++) {
             item = new HashMap<String, String>();
@@ -100,11 +111,27 @@ public class ComptesActivity extends AppCompatActivity {
         lst.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent it = new Intent(ComptesActivity.this, ComptesDetailsActivity.class);
-                it.putExtra("text1",title);
-                it.putExtra("text2", comptes_details[position][0]);
-                it.putExtra("text3", comptes_details[position][1]);
-                startActivity(it);
+                if(title.equals("Formulaires")) {
+                    String typeForm = comptes_details[position][1];
+                    switch (typeForm) {
+                        case "Permis de conduire":
+                            startActivity(new Intent(ComptesActivity.this, PermisFormActivity.class));
+                            break;
+                        case "Carte de santé":
+                            startActivity(new Intent(ComptesActivity.this, SanteFormActivity.class));
+                            break;
+                        case "Carte d'identité":
+                            startActivity(new Intent(ComptesActivity.this, IdentiteFormActivity.class));
+                            break;
+                    }
+                } else {
+                    Intent it = new Intent(ComptesActivity.this, ComptesDetailsActivity.class);
+                    it.putExtra("text1",title);
+                    it.putExtra("text2", comptes_details[position][0]);
+                    it.putExtra("text3", comptes_details[position][1]);
+                    startActivity(it);
+                }
+
             }
         });
 

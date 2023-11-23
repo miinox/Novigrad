@@ -47,7 +47,10 @@ public class SuccursalesActivity extends AppCompatActivity {
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(SuccursalesActivity.this, AdminHomeActivity.class));
+                //startActivity(new Intent(SuccursalesActivity.this, ComptesActivity.class));
+                Intent it = new Intent(SuccursalesActivity.this, ComptesActivity.class);
+                it.putExtra("title", "Comptes Succursales");
+                startActivity(it);
             }
         });
 
@@ -89,7 +92,10 @@ public class SuccursalesActivity extends AppCompatActivity {
                     Database db = new Database(getApplicationContext(), "novigrad", null, 1); // aller dans la base de données
                     Succursale succursale = new Succursale(nom, adresse, ouverture, heures);
                     db.addSuccursale(succursale);
-                    startActivity(new Intent(SuccursalesActivity.this, AdminHomeActivity.class));
+                    //startActivity(new Intent(SuccursalesActivity.this, AdminHomeActivity.class));
+                    Intent it = new Intent(SuccursalesActivity.this, ComptesActivity.class);
+                    it.putExtra("title", "Comptes Succursales");
+                    startActivity(it);
                 } else {
                     Toast.makeText(getApplicationContext(), "Verifier les informations", Toast.LENGTH_SHORT).show();
                 }

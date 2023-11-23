@@ -3,15 +3,24 @@ public class Service {
     private String title;
     private String description;
 
+    private String formulaire = "-";
+
 
     /**
      * Constructeur
      * @param title
      * @param description
      */
-    public Service(String title, String description) {
+
+    public Service(String title, String description, String forumlaire) {
         this.title = title;
         this.description = description;
+        this.formulaire = forumlaire;
+    }
+
+    public Service()
+    {
+
     }
 
     // SETTERS
@@ -30,6 +39,10 @@ public class Service {
 
     public String getTitle() {
         return title;
+    }
+
+    public String getFormulaire() {
+        return formulaire;
     }
 
     public String toString() {
